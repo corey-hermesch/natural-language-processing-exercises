@@ -116,7 +116,7 @@ def remove_stopwords(article, extra_words=[], exclude_words=[]):
     words = article.split(' ')
     # only keep words not in stopword_list
     filtered_words = [word for word in words if word not in stopword_list]
-    print (f'Removed {len(words) - len(filtered_words)} stopwords.')
+    # print (f'Removed {len(words) - len(filtered_words)} stopwords.')
     # join the filtered words back into one string and return it
     return ' '.join(filtered_words)
 
@@ -132,6 +132,8 @@ def get_clean_column(df):
     - return the new df
     """
     df['clean'] = pd.Series([basic_clean(s) for s in df.original])
+    df['clean'] = pd.Series([tokenize(s) for s in df.clean])
+    df['clean'] = pd.Series([remove_stopwords(s) for s in df.clean])
     
     return df
 
